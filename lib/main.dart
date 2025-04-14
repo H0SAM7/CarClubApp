@@ -16,14 +16,14 @@ void main() async {
   await Firebase.initializeApp();
   // Set your OpenAI API key here
   Bloc.observer = SimpleBlocObserever();
-  OpenAI.apiKey =
-      "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";
+  // OpenAI.apiKey =
+  //     "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";
 
-  await Supabase.initialize(
-    url: 'https://crgwwfzifppleytrqcmh.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNyZ3d3ZnppZnBwbGV5dHJxY21oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzkyMjI0MzksImV4cCI6MjA1NDc5ODQzOX0.cjC38O9-YnZ916IaZDQXee4ONfdnV3Fy14ymnpOAZ4c',
-  );
+  // await Supabase.initialize(
+  //   url: 'https://crgwwfzifppleytrqcmh.supabase.co',
+  //   anonKey:
+  //       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNyZ3d3ZnppZnBwbGV5dHJxY21oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzkyMjI0MzksImV4cCI6MjA1NDc5ODQzOX0.cjC38O9-YnZ916IaZDQXee4ONfdnV3Fy14ymnpOAZ4c',
+  // );
  FirebaseMessaging messaging = FirebaseMessaging.instance;
    await messaging.requestPermission(
     alert: true,
