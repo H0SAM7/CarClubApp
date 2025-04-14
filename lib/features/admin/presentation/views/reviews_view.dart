@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:car_club/core/Models/car_model.dart';
 import 'package:car_club/core/styles/text_styles.dart';
 import 'package:car_club/features/home/presentation/views/car_details.dart';
@@ -82,7 +84,7 @@ class ReviewList extends StatelessWidget {
         final reviewText = reviewData['review'] ?? 'No Review';
         final carId = reviewData['carId'] ?? 'Unknown Car';
         final username = reviewData['name'] ?? 'User';
-        final carData = reviewData['car'] as Map<String, dynamic>?;
+        final carData = reviewData['Car'] as Map<String, dynamic>?;
         final car =
             carData != null
                 ? CarModel.fromMap(carData)
@@ -103,13 +105,14 @@ class ReviewList extends StatelessWidget {
                     .toString()
                     .split(' ')[0]
                 : 'No Date';
-
+                log('Review Data: $reviewData');
+        log(car.image.toString());
         return ReviewCard(
           username: username,
           review: reviewText,
           timestamp: timestamp,
-          image: car.image,
-          carName: car.name,
+          car: car,
+         
         );
       },
     );
@@ -122,39 +125,56 @@ class ReviewCard extends StatelessWidget {
     required this.username,
     required this.review,
     required this.timestamp,
-    required this.image,
-    required this.carName,
+    required this.car,
+
   });
 
   final dynamic username;
   final dynamic review;
   final String timestamp;
 
-  final String image;
-  final String carName;
+final CarModel car;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(6.0),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: const Color.fromARGB(255, 230, 232, 235),
-        ),
-        child: ListTile(
-          leading: CircleAvatar(
-            backgroundColor: const Color.fromARGB(255, 255, 253, 253),
-            radius: 20,
-            child: CustomImage(image: image),
+      child: GestureDetector(
+        onTap: (){
+          Navigator.pushNamed(context, CarPage.id,arguments: car);
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: const Color.fromARGB(255, 230, 232, 235),
           ),
-          title: Text(username, style: AppStyles.style22(context)),
-
-          subtitle: Text(review, style: AppStyles.style18(context)),
-          trailing: Column(
-            children: [
-              Text('Car Name: $review \n', style: AppStyles.style18(context)),
-              Text(timestamp, style: AppStyles.style18(context)),
-            ],
+          child: ListTile(
+            leading: CircleAvatar(
+              backgroundColor: const Color.fromARGB(255, 255, 253, 253),
+              radius: 20,
+              child: CustomImage(image: car.image),
+            ),
+            title: Text(username, style: AppStyles.style22(context)),
+        
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Car: ${car.name}',
+                  style: AppStyles.style18(
+                    context,
+                  ).copyWith(fontWeight: FontWeight.bold),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  review,
+                  style: AppStyles.style18(context),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+            trailing: Text(timestamp, style: AppStyles.style18(context)),
           ),
         ),
       ),
